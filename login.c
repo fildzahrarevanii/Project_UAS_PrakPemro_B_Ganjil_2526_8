@@ -3,11 +3,11 @@
 
 #include "perpustakaan.h"
 
-int loginPustakawan() {
-    ensurDataFilesExist();
+int login_pustakawan() {
+    ensure_data_files_exist();
     char user[64], pass[64];
 
-    printf("=== LOGIN PURTAKAWAN ===\n");
+    printf("=== LOGIN PUSTAKAWAN ===\n");
     printf("Username: ");
     scanf("%63s", user);
     printf("Password: ");

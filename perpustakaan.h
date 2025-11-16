@@ -13,7 +13,7 @@
 
 // path file data
 #define FILE_BUKU "data/buku.txt"
-#define FILE_ANGGOTA "data/anggota.txt"
+// DIHAPUS: #define FILE_ANGGOTA "data/anggota.txt"
 #define FILE_PINJAMAN "data/peminjaman.txt"
 #define FILE_LOGIN "data/login.txt"
 #define FILE_SETTING "data/setting.txt"
@@ -25,20 +25,15 @@ typedef struct {
     char penulis[100];
     char kategori[30];      // Fiksi, Non-Fiksi, Komik, Majalah, Referensi
     int tersedia;           // 1 = tersedia, 0 = dipinjam
-    int jumlah_dipinjam;    // untuk ranking
+    int jumlah_dipinjam;    // untuk ranking (dibiarkan, masih dipakai di buku.c)
 } buku;
 
-typedef struct {
-    int id;
-    char nama[100];
-    char alamat[200];
-    char no_telp[25];
-} anggota;
+// DIHAPUS: typedef struct { ... } anggota;
 
 typedef struct {
     int id_peminjaman;
     int id_buku;
-    int id_anggota;
+    int id_anggota; // Dibiarkan agar peminjaman.c tetap berfungsi
     char tanggal_pinjam[20];   // format YYYY-MM-DD
     char tanggal_kembali[20];  // saat pinjam
     int lama_pinjam; // total hari pinjam
@@ -68,21 +63,14 @@ void tampilkan_daftar_buku(void);
 void cari_buku(void);
 void kategorikan_buku(void);
 
-// anggota.c
-void tambah_anggota();
-void tampilkan_daftar_anggota();
-void lihat_riwayat_anggota(int id_anggota);
+// DIHAPUS: Blok fungsi anggota.c
 
 // peminjaman.c
 void pinjam_buku();
 void kembalikan_buku();
 void tampilkan_riwayat_peminjaman(void);
 
-// denda.c
-int hitung_denda(int hari_terlambat);
-
-// ranking.c
-void tampilkan_ranking_buku(void);
+// DIHAPUS: Blok fungsi ranking.c
 
 // filehandler.c
 FILE* buka_file(const char *path, const char *mode);

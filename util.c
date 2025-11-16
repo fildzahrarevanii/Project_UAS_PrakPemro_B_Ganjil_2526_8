@@ -1,10 +1,21 @@
 #include "perpustakaan.h"
+#include <stdlib.h> // Diperlukan untuk system()
 
 void clear_input(){
     int c;
     while((c = getchar()) != '\n' && c != EOF){
         // buang karakter sisa input
     }
+}
+
+// FUNGSI YANG HILANG DITAMBAHKAN DI SINI
+void clear_screen(void){
+    // Gunakan "cls" untuk Windows, "clear" untuk Linux/Mac
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
 }
 
 void pause_screen(){

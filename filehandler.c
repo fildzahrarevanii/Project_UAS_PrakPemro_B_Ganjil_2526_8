@@ -2,7 +2,7 @@
 
 #include "perpustakaan.h"
 
-void ensure_data_files(void){
+void ensure_data_files_exist(void){
     FILE *f;
 
     // login.txt default
@@ -35,8 +35,7 @@ void ensure_data_files(void){
     f = fopen(FILE_BUKU, "a");
     if(f) fclose(f);
 
-    f = fopen(FILE_ANGGOTA, "a");
-    if(f) fclose(f);
+    // DIHAPUS: Blok f = fopen(FILE_ANGGOTA, "a");
 
     f = fopen(FILE_PINJAMAN, "a");
     if(f) fclose(f);

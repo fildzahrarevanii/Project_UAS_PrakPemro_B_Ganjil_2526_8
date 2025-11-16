@@ -5,27 +5,6 @@
 #include <time.h>
 #include "denda.h"  // Pastikan file denda.h ada di direktori sama
 
-// Fungsi untuk membaca setting denda dari file
-int baca_setting_denda() {
-    FILE *file = fopen("data/setting.txt", "r");
-    if (!file) {
-        printf("Error: Tidak dapat membuka setting.txt. Pastikan file ada di folder data/.\n");
-        return 0;
-    }
-    char line[100];
-    int denda = 0;
-    while (fgets(line, sizeof(line), file)) {
-        if (sscanf(line, "denda_per_hari: %d", &denda) == 1) {
-            break;
-        }
-    }
-    fclose(file);
-    if (denda == 0) {
-        printf("Warning: Denda per hari tidak ditemukan atau 0. Menggunakan default 0.\n");
-    }
-    return denda;
-}
-
 // Fungsi untuk menghitung selisih hari antara dua tanggal (diperbaiki dengan validasi)
 int hitung_selisih_hari(char *tanggal1, char *tanggal2) {
     if (!tanggal1 || !tanggal2 || strlen(tanggal1) != 10 || strlen(tanggal2) != 10) {
@@ -68,28 +47,3 @@ int hitung_denda(char *tanggal_peminjaman, char *tanggal_pengembalian, int denda
     return 0;
 }
 
-// Fungsi main() untuk test standalone (hapus ini setelah test, jika ingin gabung dengan peminjaman.c)
-int main() {
-    printf("Test Fungsi Denda\n");
-    
-    // Test baca_setting_denda
-    int denda_per_hari = baca_setting_denda();
-    printf("Denda per hari: %d\n", denda_per_hari);
-    
-    // Test hitung_selisih_hari
-    char tanggal1[11] = "2023-10-01";
-    char tanggal2[11] = "2023-10-15";
-    int selisih = hitung_selisih_hari(tanggal1, tanggal2);
-    printf("Selisih hari antara %s dan %s: %d\n", tanggal1, tanggal2, selisih);
-    
-    // Test hitung_denda
-    int denda = hitung_denda(tanggal1, tanggal2, denda_per_hari);
-    printf("Denda: %d\n", denda);
-    
-    // Test dengan tanggal invalid
-    char tanggal_invalid[11] = "2023-02-30";
-    int denda_invalid = hitung_denda(tanggal1, tanggal_invalid, denda_per_hari);
-    printf("Denda dengan tanggal invalid: %d\n", denda_invalid);
-    
-    return 0;
-}

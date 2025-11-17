@@ -1,100 +1,114 @@
-// menu.c
-// menampilkan menu utama dan memanggil fungsi-fungsi fitur
-
 #include "perpustakaan.h"
 
-// menu utama
 void tampilkan_menu_utama() {
     int pilihan;
-    do {
-        clear_screen(); 
+
+    while (1) {
+        clear_screen();
         printf("=== MENU UTAMA ===\n");
         printf("1. Kelola Buku\n");
-        // DIHAPUS: 2. Kelola Anggota
-        printf("2. Peminjaman / Pengembalian\n");
-        // DIHAPUS: 4. Rangking Buku Populer
-        printf("3. Keluar\n"); // Dinomori ulang
-        printf("Pilih: ");
-        if (scanf("%d", &pilihan) != 1) {
-            while(getchar()!='\n');
-            pilihan = 0;
-        }
-        getchar();
+        printf("2. Kelola Anggota\n");
+        printf("3. Peminjaman / Pengembalian\n");
+        printf("4. Keluar\n");
+        printf("Pilih menu: ");
+
+        pilihan = read_int_safe();
 
         switch (pilihan) {
             case 1:
                 tampilkan_sub_menu_buku();
                 break;
-            case 2: // Dinomori ulang
+
+            case 2:
+                tampilkan_sub_menu_anggota();
+                break;
+
+            case 3:
                 tampilkan_sub_menu_peminjaman();
                 break;
-            case 3: // Dinomori ulang
-                printf("Keluar. Terima Kasih.\n");
-                break;
+
+            case 4:
+                printf("Keluar dari program...\n");
+                return;
+
             default:
-                printf("Pilihan tidak valid.\n");
-                pause_screen(); 
+                printf("Pilihan tidak valid!\n");
+                pause_screen();
         }
-    } while (pilihan != 3); // Diubah dari 5 menjadi 3
+    }
 }
 
-
-// submenu buku
 void tampilkan_sub_menu_buku() {
-    int pilih;
-    do {
-        clear_screen(); 
+    int p;
+    while (1) {
+        clear_screen();
         printf("=== MENU BUKU ===\n");
         printf("1. Tambah Buku\n");
-        printf("2. Hapus Buku\n");
-        printf("3. Edit Buku\n");
-        printf("4. Tampilkan Semua Buku\n");
-        printf("5. Cari Buku\n"); 
+        printf("2. Edit Buku\n");
+        printf("3. Hapus Buku\n");
+        printf("4. Lihat Daftar Buku\n");
+        printf("5. Cari Buku\n");
         printf("6. Kembali\n");
-        printf("Pilih: ");
-        if (scanf("%d", &pilih) != 1) {
-            while(getchar()!='\n');
-            pilih = 0;
-        }
-        getchar();
+        printf("Pilih menu: ");
 
-        switch (pilih) {
-            case 1: tambah_buku(); pause_screen(); break; 
-            case 2: hapus_buku(); pause_screen(); break; 
-            case 3: edit_buku(); pause_screen(); break; 
-            case 4: clear_screen(); tampilkan_daftar_buku(); pause_screen(); break; 
-            case 5: cari_buku(); pause_screen(); break; 
-            case 6: break;
-            default: printf("Pilihan tidak valid.\n"); pause_screen(); 
+        p = read_int_safe();
+
+        switch (p) {
+            case 1: tambah_buku(); break;
+            case 2: edit_buku(); break;
+            case 3: hapus_buku(); break;
+            case 4: tampilkan_daftar_buku(); break;
+            case 5: cari_buku(); break;
+            case 6: return;
+            default: printf("Pilihan tidak valid!\n"); pause_screen();
         }
-    } while (pilih != 6);
+    }
 }
 
+void tampilkan_sub_menu_anggota() {
+    int p;
+    while (1) {
+        clear_screen();
+        printf("=== MENU ANGGOTA ===\n");
+        printf("1. Tambah Anggota\n");
+        printf("2. Edit Anggota\n");
+        printf("3. Hapus Anggota\n");
+        printf("4. Lihat Daftar Anggota\n");
+        printf("5. Kembali\n");
+        printf("Pilih menu: ");
 
-// submenu peminjaman
+        p = read_int_safe();
+
+        switch (p) {
+            case 1: tambah_anggota(); break;
+            case 2: edit_anggota(); break;
+            case 3: hapus_anggota(); break;
+            case 4: tampilkan_daftar_anggota(); break;
+            case 5: return;
+            default: printf("Pilihan tidak valid!\n"); pause_screen();
+        }
+    }
+}
+
 void tampilkan_sub_menu_peminjaman() {
-    int pilih;
-    do {
-        clear_screen(); 
+    int p;
+    while (1) {
+        clear_screen();
         printf("=== MENU PEMINJAMAN ===\n");
         printf("1. Pinjam Buku\n");
         printf("2. Kembalikan Buku\n");
-        // DIHAPUS: 3. Lihat Riwayat Anggota
-        printf("3. Kembali\n"); // Dinomori ulang
-        printf("Pilih: ");
-        if (scanf("%d", &pilih) != 1) {
-            while(getchar()!='\n');
-            pilih = 0;
-        }
-        getchar();
+        printf("3. Riwayat Peminjaman\n");
+        printf("4. Kembali\n");
+        printf("Pilih menu: ");
 
-        switch (pilih) {
-            case 1: pinjam_buku(); pause_screen(); break; 
-            case 2: kembalikan_buku(); pause_screen(); break; 
-            case 3: // Dinomori ulang
-                break;
-            default: printf("Pilihan tidak valid.\n");
-            pause_screen(); 
-        } 
-    } while (pilih != 3); // Diubah dari 4 menjadi 3
+        p = read_int_safe();
+
+        switch (p) {
+            case 1: pinjam_buku(); break;
+            case 2: kembalikan_buku(); break;
+            case 3: tampilkan_riwayat_peminjaman(); break;
+            case 4: return;
+            default: printf("Pilihan tidak valid!\n"); pause_screen();
+        }
+    }
 }

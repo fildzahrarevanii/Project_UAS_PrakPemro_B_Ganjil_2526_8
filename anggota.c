@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -284,4 +285,178 @@ void riwayatAnggota() {
 
     if (!found)
         printf("Tidak ada riwayat peminjaman untuk anggota ini.\n");
+=======
+#include "perpustakaan.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define TMP_FILE "data/tmp.txt"
+
+// Ambil ID terakhir
+static int get_last_id() {
+    FILE *fp = fopen(FILE_ANGGOTA, "r");
+    if (!fp) return 0;
+
+    int last = 0;
+    char line[256];
+    while (fgets(line, sizeof(line), fp)) {
+        int id;
+        sscanf(line, "%d|", &id);
+        if (id > last) last = id;
+    }
+    fclose(fp);
+    return last;
+}
+
+/* =========================== TAMBAH =========================== */
+
+void tambah_anggota() {
+    FILE *fp = fopen(FILE_ANGGOTA, "a");
+    if (!fp) {
+        printf("Gagal membuka %s\n", FILE_ANGGOTA);
+        return;
+    }
+
+    anggota a;
+    a.id = get_last_id() + 1;
+
+    printf("Nama      : ");
+    read_line(a.nama, sizeof(a.nama));
+
+    printf("Alamat    : ");
+    read_line(a.alamat, sizeof(a.alamat));
+
+    printf("No HP     : ");
+    read_line(a.nohp, sizeof(a.nohp));
+
+    fprintf(fp, "%d|%s|%s|%s\n",
+            a.id, a.nama, a.alamat, a.nohp);
+
+    fclose(fp);
+
+    printf("Anggota berhasil ditambahkan.\n");
+}
+
+/* ======================== TAMPILKAN DATA ======================== */
+
+void tampilkan_daftar_anggota() {
+    FILE *fp = fopen(FILE_ANGGOTA, "r");
+    if (!fp) {
+        printf("Belum ada data anggota.\n");
+        return;
+    }
+
+    anggota a;
+    char line[256];
+
+    printf("\n==== DAFTAR ANGGOTA ====\n");
+
+    while (fgets(line, sizeof(line), fp)) {
+        sscanf(line, "%d|%[^|]|%[^|]|%s",
+               &a.id, a.nama, a.alamat, a.nohp);
+
+        printf("%d. %s | %s | %s\n", a.id, a.nama, a.alamat, a.nohp);
+    }
+
+    fclose(fp);
+}
+
+/* =========================== EDIT =========================== */
+
+void edit_anggota() {
+    int id;
+    printf("Masukkan ID anggota yang ingin diedit: ");
+    scanf("%d", &id);
+    clear_input();
+
+    FILE *fp = fopen(FILE_ANGGOTA, "r");
+    FILE *temp = fopen(TMP_FILE, "w");
+
+    if (!fp || !temp) {
+        printf("Gagal membuka file.\n");
+        return;
+    }
+
+    anggota a;
+    char line[256];
+    int found = 0;
+
+    while (fgets(line, sizeof(line), fp)) {
+        sscanf(line, "%d|%[^|]|%[^|]|%s",
+               &a.id, a.nama, a.alamat, a.nohp);
+
+        if (a.id == id) {
+            found = 1;
+
+            printf("Nama baru   : ");
+            read_line(a.nama, sizeof(a.nama));
+
+            printf("Alamat baru : ");
+            read_line(a.alamat, sizeof(a.alamat));
+
+            printf("No HP baru  : ");
+            read_line(a.nohp, sizeof(a.nohp));
+        }
+
+        fprintf(temp, "%d|%s|%s|%s\n",
+                a.id, a.nama, a.alamat, a.nohp);
+    }
+
+    fclose(fp);
+    fclose(temp);
+
+    remove(FILE_ANGGOTA);
+    rename(TMP_FILE, FILE_ANGGOTA);
+
+    if (found)
+        printf("Data anggota berhasil diupdate.\n");
+    else
+        printf("ID anggota tidak ditemukan.\n");
+}
+
+/* =========================== HAPUS =========================== */
+
+void hapus_anggota() {
+    int id;
+    printf("Masukkan ID anggota yang ingin dihapus: ");
+    scanf("%d", &id);
+    clear_input();
+
+    FILE *fp = fopen(FILE_ANGGOTA, "r");
+    FILE *temp = fopen(TMP_FILE, "w");
+
+    if (!fp || !temp) {
+        printf("Gagal membuka file.\n");
+        return;
+    }
+
+    anggota a;
+    char line[256];
+    int found = 0;
+
+    while (fgets(line, sizeof(line), fp)) {
+        sscanf(line, "%d|%[^|]|%[^|]|%s",
+               &a.id, a.nama, a.alamat, a.nohp);
+
+        if (a.id == id) {
+            found = 1;
+            continue; // skip yang dihapus
+        }
+
+        fprintf(temp, "%d|%s|%s|%s\n",
+                a.id, a.nama, a.alamat, a.nohp);
+    }
+
+    fclose(fp);
+    fclose(temp);
+
+    remove(FILE_ANGGOTA);
+    rename(TMP_FILE, FILE_ANGGOTA);
+
+    if (found)
+        printf("Anggota berhasil dihapus.\n");
+    else
+        printf("ID tidak ditemukan.\n");
+>>>>>>> 7b89aa2 (Simpan perubahan lokal sebelum pull)
 }
